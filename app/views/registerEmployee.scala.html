@@ -1,0 +1,42 @@
+@(employeeForm: Form[models.employees.Employee],employee: models.employees.Employee)
+
+@import helper._
+
+@main("Register Employee",employee){
+    <p class="lead">Add a new employee</p>
+
+    @* Display error message from flash, if it is set *@
+	@if(flash.containsKey("error")) {
+		<div class="alert alert-success">
+			@flash.get("error")
+		</div>
+	}
+
+    @form(action=routes.LoginController.registerEmployeeSubmit(), 'class -> "form-horizontal", 'role -> "form") {
+        @* CSRF attack prevention *@
+        @* This token, sent by the controller, will be used to authenticate the form submission *@
+        @CSRF.formField
+
+            
+            @inputText(employeeForm("Id"), '_label -> "Employee ID", 'class -> "form-control")
+            @inputText(employeeForm("fname"), '_label -> "First Name", 'class -> "form-control")
+            @inputText(employeeForm("sname"), '_label -> "Surname", 'class -> "form-control")
+            @inputText(employeeForm("position"), '_label -> "Position", 'class -> "form-control")
+            @inputText(employeeForm("email"), '_label -> "Email", 'class -> "form-control")
+            @inputDate(employeeForm("dob"), args = 'size -> 10, '_label -> "Date Of Birth", 'class -> "form-control")
+            @inputPassword(employeeForm("password"), '_label -> "Password", 'class -> "form-control")
+            @select(
+                employeeForm("department.id"),
+                options(Department.options),
+                '_label -> "Department", '_default -> "-- Choose a Department --", 
+                '_showConstraints -> false, 'class -> "form-control"
+            )
+            
+            <div class="actions">
+                <input type="submit" value="Register employee" class="btn btn-primary">
+                <a href="@routes.LoginController.registerEmployee()">
+                    <button type="button" class="btn btn-warning">Cancel</button>
+                </a>
+            </div>
+    } @* end of form *@
+} @* end of main *@

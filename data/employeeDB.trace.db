@@ -1,0 +1,13 @@
+2019-03-07 17:38:39 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLException: Table "PLAY_EVOLUTIONS" not found; SQL statement:
+select id, hash, apply_script, revert_script, state, last_problem from play_evolutions where state like 'applying_%' [42102-197]
+2019-03-07 17:38:40 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "INSERT INTO DEPARTMENT (NAME) VALUES ('Administration')
+
+INSERT[*] INTO EMPLOYEES(TYPE,ID,FNAME,SNAME,EMAIL,POSITION,DOB,PASSWORD,DEPARTMENT_ID) VALUES ('a','admin','Dave','Gold','admin@in.com','Website Admin','1997-01-01','admin','1') "; SQL statement:
+insert into department (name) values ('Administration')
+
+insert into employees(type,id,fname,sname,email,position,dob,password,department_id) values ('a','admin','Dave','Gold','admin@in.com','Website Admin','1997-01-01','admin','1') [42000-197]
+2019-03-07 17:39:16 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "EMPLOYEES" not found; SQL statement:
+insert into employees(type,id,fname,sname,email,position,dob,password,department_id) values ('a','admin','Dave','Gold','admin@in.com','Website Admin','1997-01-01','admin','1') [42102-197]

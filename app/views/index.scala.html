@@ -1,0 +1,11 @@
+@(employee: models.employees.Employee)
+@main("Index",employee){
+    <h1>Welcome</h1>
+
+	@if(flash.containsKey("success")) {
+		<div class="alert alert-success">
+			@flash.get("success")
+		</div>
+}  
+
+ }

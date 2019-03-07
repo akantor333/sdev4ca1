@@ -1,0 +1,71 @@
+@(pagename:String,employee: models.employees.Employee)(content:Html)
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="UTF-8" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<style>
+		.footer { font-weight: bold; color: white; background-color: black; }
+	    .sidecol { font-weight: bold; background-color: rgb(62, 65, 68); }
+	    .midcol h1 { text-align: center; font-weight: bold; }
+	    .midcol h3 { text-align: center; color: rgb(62, 65, 68); }
+		.account { color:black}
+		
+	</style>
+	<title>Crux @pagename</title>
+</head>
+
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-2">
+				<div class="well sidecol">
+					<img class = "banner" src = "https://i.imgur.com/GcBNDzH.png" alt = "WebsiteLogo"></img>
+				</div>
+			</div>
+			<div class="col-sm-8">
+				<div class=" midcol">
+					<img class = "banner" src = "https://i.imgur.com/7jKENqD.png" alt = "Community Banner"></img>
+				</div>
+			</div>
+			<div class="col-sm-2">
+				<div class="well sidecol">
+							<div class="actions">
+								@if(employee != null) {
+									<a type="button" value="Logout" class="btn btn-primary" href="@routes.LoginController.logout">Log Out</a>
+									@if("Website Admin".equals(employee.getPosition())){
+										<a type="button" value="Register" class="btn btn-primary" href="@routes.LoginController.registerEmployee">Create Account</a>
+									}
+								}else{
+									<a type="button" value="Login" class="btn btn-primary" href="@routes.LoginController.login">Login</a>	
+								}
+							</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<ul class="nav navbar-nav">
+				<li @if(pagename=="Home" ) {class="active" }><a href="@routes.HomeController.index">Home</a></li>
+			</ul>
+		</div>
+	</nav>
+
+	<div class="container-fluid">
+		<div class="col-sm-8">
+				@content
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="well footer">
+				Insert footer info here...
+			</div>
+		</div>
+	</div>
+	</div>
+	<script src="@routes.Assets.versioned(" javascripts/main.js")"> </script> </body> </html>
