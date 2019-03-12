@@ -1,0 +1,35 @@
+@(addressForm: Form[models.Address],emp: models.employees.Employee, employee: models.employees.Employee)
+
+@import helper._
+
+@main("Upadte Address",employee){
+    <p class="lead">Update Address for @emp.getFname @emp.getSname</p>
+
+    @* Display error message from flash, if it is set *@
+	@if(flash.containsKey("error")) {
+		<div class="alert alert-success">
+			@flash.get("error")
+		</div>
+	}
+
+    @form(action=routes.HomeController.updateAddressSubmit(emp.getId), 'class -> "form-horizontal", 'role -> "form") {
+        @* CSRF attack prevention *@
+        @* This token, sent by the controller, will be used to authenticate the form submission *@
+        @CSRF.formField
+        
+            @inputText(addressForm("nr"), '_label -> "House Number", 'class -> "form-control")
+            @inputText(addressForm("street"), '_label -> "Street", 'class -> "form-control")
+            @inputText(addressForm("town"), '_label -> "Town", 'class -> "form-control")
+            @inputText(addressForm("city"), '_label -> "City", 'class -> "form-control")
+            @inputText(addressForm("eircode"), '_label -> "Eircode", 'class -> "form-control")
+            @inputText(addressForm("employee.id").copy(value=Some(emp.getId)), '_label -> "",'hidden -> "hidden")
+            @inputText(addressForm("id"), '_label -> "", 'hidden -> "hidden")
+            
+            <div class="actions">
+                <input type="submit" value="Register employee" class="btn btn-primary">
+                <a href="@routes.HomeController.updateAddress(emp.getId)">
+                    <button type="button" class="btn btn-warning">Cancel</button>
+                </a>
+            </div>
+    } @* end of form *@
+} @* end of main *@

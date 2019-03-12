@@ -14,6 +14,15 @@ import models.employees.*;
 
 import views.html.*;
 
+
+import play.mvc.Http.*;
+import play.mvc.Http.MultipartFormData.FilePart;
+import java.io.File;
+import java.io.IOException;
+import java.awt.image.*;
+import javax.imageio.*;
+import org.imgscalr.*;
+
 public class LoginController extends Controller {
     private FormFactory formFactory;
  
@@ -46,6 +55,7 @@ public Result logout() {
     return redirect(routes.LoginController.login());
 }
 
+@With(AuthAdmin.class)
 public Result registerEmployee() {
     Form<Employee> employeeForm = formFactory.form(Employee.class);
     return ok(registerEmployee.render(employeeForm,Employee.getEmployeeById(session().get("Id"))));
@@ -67,13 +77,56 @@ public Result registerEmployeeSubmit() {
         }else{
             newEmployee.update();
         }
-              
-        
-    flash("success", "Employee " + newEmployee.getFname() + " was registered.");
 
-    return redirect(controllers.routes.LoginController.login()); 
+        MultipartFormData<File> data = request().body().asMultipartFormData();
+        FilePart<File> image = data.getFile("upload");
+        String saveImageMessage = saveFile(newEmployee.getId(), image);
+              
+    flash("success", "Employee " + newEmployee.getFname() + " was registered, " +saveImageMessage);
+
+    return redirect(controllers.routes.HomeController.index()); 
     }
 }
+
+public String saveFile(String id, FilePart<File> uploaded){
+    if(uploaded != null){
+        String mimeType = uploaded.getContentType();
+        if(mimeType.startsWith("image/")){
+            String fileName = uploaded.getFilename();
+            String extension = "";
+            int i = fileName.lastIndexOf('.');
+            if(i >= 0){
+                extension = fileName.substring(i+1);
+            }
+            File file = uploaded.getFile();
+
+            File dir = new File("public/images/employeeImages");
+            if(!dir.exists()){
+                dir.mkdirs();
+            }
+
+            File newFile = new File("public/images/employeeImages/", id + "." + extension);
+            if(file.renameTo(newFile)){
+                try {
+                    BufferedImage img = ImageIO.read(newFile);
+                    BufferedImage scaledImg = Scalr.resize(img, 90);
+                    if(ImageIO.write(scaledImg, extension , new File("public/images/employeeImages/", id + "thump.jpg"))){
+                        return "image uploaded and thumbnail created.";
+                    }else{
+                        return "image uploaded but thumbnail creation failed."; 
+                    }
+                }catch(IOException e){
+                    return "image uploaded but thumbnail creation failed."; 
+                }
+            }else{
+                return "image upload failed.";
+            }
+        }
+    }
+    return "no image file.";
+}
+
+
 
 
 

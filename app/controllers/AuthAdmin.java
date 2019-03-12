@@ -5,6 +5,7 @@ import java.util.concurrent.CompletionStage;
 import java.util.concurrent.CompletableFuture;
 
 import models.employees.*;
+import models.*;
 
 public class AuthAdmin extends Action.Simple {
 
@@ -13,7 +14,8 @@ public class AuthAdmin extends Action.Simple {
         String id = ctx.session().get("Id");
         if (id != null) {
             Employee u = Employee.getEmployeeById(id);
-            if ("admin".equals(u.getPosition())) {
+            Department d = u.getDepartment();
+            if ("Administration".equals(d.getName())) {
                 return delegate.call(ctx);
             }
         }

@@ -35,15 +35,16 @@ public class Address extends Model {
     public Address() {
     }
 
-
-    public Address(Long id, String nr, String street, String town, String city, String eircode) {
+    public Address(Long id, String nr, String street, String town, String city, String eircode, Employee employee) {
         this.id = id;
         this.nr = nr;
         this.street = street;
         this.town = town;
         this.city = city;
         this.eircode = eircode;
+        this.employee = employee;
     }
+
 
     public Long getId() {
         return this.id;
@@ -101,5 +102,6 @@ public class Address extends Model {
         this.employee = employee;
     }
 
+    public static Finder<Long,Address> find = new Finder<Long,Address>(Address.class);
 
 }

@@ -12,7 +12,7 @@ libraryDependencies += guice
 
 // Test Database
 libraryDependencies += "com.h2database" % "h2" % "1.4.197"
-
+libraryDependencies += "org.imgscalr" % "imgscalr-lib" % "4.2"
 libraryDependencies ++= Seq(evolutions, jdbc)
 
 // Testing libraries for dealing with CompletionStage...

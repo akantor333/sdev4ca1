@@ -20,7 +20,7 @@ public class Admin extends Employee{
 
     public static final Finder<Long, Admin> find = new Finder<>(Admin.class);
 
-    public static final List<Admin> findAll(){
+    public static final List<Admin> findAllAdmins(){
         return Admin.find.all();
     }
 

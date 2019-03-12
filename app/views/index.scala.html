@@ -1,11 +1,33 @@
 @(employee: models.employees.Employee)
 @main("Index",employee){
-    <h1>Welcome</h1>
+    <h1>Welcome to the AquaTech employee website</h1>
 
 	@if(flash.containsKey("success")) {
 		<div class="alert alert-success">
 			@flash.get("success")
 		</div>
-}  
+}
+<style>
+	.buttons{
+    height:20em;
+    width:20em;
+}
+</style>  
 
+@if(employee != null){
+	<div class="row">
+			<div class="col-sm-6">
+				<div class="actions">
+					<a type="button" value="Employees" class="btn btn-primary btn-lg btn-block" href="@routes.HomeController.employees">Employees</a>
+					<a type="button" value="Departments" class="btn btn-primary btn-lg btn-block" href="@routes.HomeController.departments">Departments</a>	
+				</div>
+			</div>
+			<div class="col-sm-6">
+					<a type="button" value="Projects" class="btn btn-primary btn-lg btn-block" href="@routes.HomeController.projects">Project</a>
+					<a type="button" value="Register" class="btn btn-primary btn-lg btn-block" href="@routes.LoginController.registerEmployee">Register an Employee</a>
+			</div>
+	</div>
+}else{
+	<h1>Login with your assigned employee id and password to continue</h1>
+}
  }

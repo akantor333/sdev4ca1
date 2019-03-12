@@ -23,10 +23,12 @@ public class Project extends Model {
     public Project() {
     }
 
-    public Project(Long id, String name) {
+    public Project(Long id, String name, List<Employee> employee) {
         this.id = id;
         this.name = name;
+        this.employee = employee;
     }
+
 
 
     public Long getId() {
@@ -53,4 +55,18 @@ public class Project extends Model {
         this.employee = employee;
     }
 
+    public static Finder<Long,Project> find = new Finder<Long,Project>(Project.class);
+
+    public static List<Project> findAll() {
+   return Project.find.query().where().orderBy("name asc").findList();
+    }
+
+    public static Map<String,String> options() {
+        LinkedHashMap<String,String> options = new LinkedHashMap();
+     
+        for (Project d: Project.findAll()) {
+           options.put(d.getId().toString(), d.getName());
+        }
+        return options;
+        }
 }

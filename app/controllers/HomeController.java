@@ -15,13 +15,19 @@ import javax.inject.Inject;
 import models.*;
 import models.employees.*;
 
+import play.mvc.Http.*;
+import play.mvc.Http.MultipartFormData.FilePart;
+import java.io.File;
+
  
 public class HomeController extends Controller {
 
     private FormFactory formFactory;
+    private Environment e;
 
     @Inject
-    public HomeController(FormFactory f) {
+    public HomeController(FormFactory f, Environment env) {
+        this.e = env;
         this.formFactory = f;
 }
 
@@ -32,5 +38,124 @@ public class HomeController extends Controller {
 
      }
 
+     public Result employees(){
 
+        List<Employee> employeeList = null;
+        employeeList = Employee.findAll();
+
+        return ok(employees.render(employeeList,Employee.getEmployeeById(session().get("Id"))));  
+     }
+     public Result departments(){
+
+        List<Department> departmentList = null;
+        departmentList = Department.findAll();
+
+        return ok(departments.render(departmentList,Employee.getEmployeeById(session().get("Id"))));  
+     }
+     public Result projects(){
+
+        List<Project> projectList = null;
+        projectList = Project.findAll();
+
+        return ok(projects.render(projectList,Employee.getEmployeeById(session().get("Id"))));  
+     }
+
+     public Result individualDepartment(Long id){
+
+        Department department = null;
+        department = Department.find.byId(id);
+
+        List<Employee> employeeList = null;
+        employeeList = Employee.findAll();
+
+        return ok(individualDepartment.render(department,employeeList,Employee.getEmployeeById(session().get("Id"))));  
+     }
+
+     public Result individualEmployee(String id){
+
+        Employee emp = null;
+        emp = emp.getEmployeeById(id);
+
+        List<Project> projectList = null;
+        projectList = emp.getProject();
+
+        List<Project> allProjects = null;
+        allProjects = Project.findAll();
+
+        Address address = null;
+        address = emp.getAddress();
+
+        return ok(individualEmployee.render(address, emp,allProjects,projectList,e,Employee.getEmployeeById(session().get("Id"))));  
+     }
+
+     public Result individualProject(Long id){
+
+        Project project = null;
+        project = Project.find.byId(id);
+
+        List<Employee> employee = null;
+        employee = project.getEmployee();
+
+        
+        return ok(individualProject.render(project,employee,Employee.getEmployeeById(session().get("Id"))));  
+     }
+
+
+     
+     @Transactional
+     public Result addProject(String eid, Long pid){
+         Employee emp = Employee.getEmployeeById(eid);
+         Project pro = Project.find.byId(pid);
+
+         emp.addProject(pro);
+         emp.update();
+
+         return redirect(controllers.routes.HomeController.individualEmployee(eid)); 
+     }
+
+     @With(AuthAdmin.class)
+    public Result editEmployee(String id) {
+    Employee i;
+    Form<Employee> employeeForm;
+
+    try {
+        i = Employee.getEmployeeById(id);
+
+        employeeForm = formFactory.form(Employee.class).fill(i);
+    } catch (Exception ex) {
+        return badRequest("error");
+    }
+
+    return ok(registerEmployee.render(employeeForm,Employee.getEmployeeById(session().get("id"))));
+}
+
+public Result updateAddress(String id) {
+    Employee emp = Employee.getEmployeeById(id);
+    Form<Address> addressForm = formFactory.form(Address.class);
+    return ok(updateAddress.render(addressForm,emp,Employee.getEmployeeById(session().get("Id"))));
+}
+
+public Result updateAddressSubmit(String id) {
+
+    Form<Address> newAddressForm = formFactory.form(Address.class).bindFromRequest();
+    Employee emp = Employee.getEmployeeById(id);
+
+    if (newAddressForm.hasErrors()) {
+
+        return badRequest(updateAddress.render(newAddressForm,emp,Employee.getEmployeeById(session().get("Id"))));
+    } else {
+
+        Address  newAddress = newAddressForm.get();
+
+        if(Address.find.byId(newAddress.getId())==null){
+            newAddress.save();
+        }else{
+            newAddress.update();
+        }
+              
+    flash("success", "Address was Updated");
+
+    return redirect(controllers.routes.HomeController.individualEmployee(id)); 
+    }
+}
 }

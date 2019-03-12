@@ -3,13 +3,20 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET     /                           controllers.HomeController.index()
-
-
-
+GET     /                                    controllers.HomeController.index()
+GET     /employees                           controllers.HomeController.employees()
+GET     /departments                         controllers.HomeController.departments()
+GET     /projects                            controllers.HomeController.projects()
+GET     /addProject/:eid/:pid                 controllers.HomeController.addProject(eid: String, pid: Long) 
+GET     /editEmployee/:id                     controllers.HomeController.editEmployee(id: String)
+GET     /individualDepartment/:id                   controllers.HomeController.individualDepartment(id: Long)
+GET     /individualEmployee/:id                     controllers.HomeController.individualEmployee(id: String)
+GET     /individualProject/:id                     controllers.HomeController.individualProject(id: Long)
 
 GET     /registerEmployee               controllers.LoginController.registerEmployee
 POST    /registerEmployeeSubmit         controllers.LoginController.registerEmployeeSubmit()
+GET     /updateAddress/:id                  controllers.HomeController.updateAddress(id: String)
+POST    /updateAddressSubmit/:id               controllers.HomeController.updateAddressSubmit(id: String)
 
 GET     /login                      controllers.LoginController.login
 GET     /loginSubmit                controllers.LoginController.loginSubmit

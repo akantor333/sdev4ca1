@@ -26,6 +26,7 @@ public class Department extends Model {
         this.employees = employees;
     }
 
+    
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
     private List<Employee> employees;
  

@@ -1,0 +1,78 @@
+@(address: models.Address, emp: models.employees.Employee,allProjects: List[models.Project], projects: List[models.Project], env: play.api.Environment, employee: models.employees.Employee)
+@main("Employee",employee){
+
+<h1>Employee Information</h1>
+
+@if(env.resource("public/images/employeeImages/"+ emp.getId + "thumb.jpg").isDefined){
+    <td><img src"/assets/images/employeeImages/@emp.getId + "thumb.jpg")"/></td>
+}else {
+    <td><img src="/assets/images/employeeImages/noImage.jpg"/></td>
+}
+
+@if((employee != null) && ("Administration".equals(employee.getDepartment().getName()))){
+    <a type="button" value="Edit Employee" class="btn btn-primary" href="@routes.HomeController.editEmployee(emp.getId)">Edit Employee Details</a>
+}
+
+@if((employee != null) && (("Administration".equals(employee.getDepartment().getName())) || (employee.getId().equals(emp.getId())))){
+    <a type="button" value="Edit Employee" class="btn btn-primary" href="@routes.HomeController.updateAddress(emp.getId)">Add/Edit Address</a>
+}
+
+
+<div class="row">
+    <div class="col-sm-4 well">
+<h2>Employee Id: @emp.getId</h2>
+<h2>Name: @emp.getFname @emp.getSname</h2>
+<h2>Position: @emp.getPosition</h2>
+<h2>Email: @emp.getEmail</h2>
+<h2>Date of birth: @emp.getDobString</h2>
+<h2>Department: @emp.getDepartment.getName</h2>
+</div>
+<div class="col-sm-4 well">
+        <table class="table table-bordered table-hover table-condensed">
+                <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+    
+            </tr>
+            </thead>
+            <tbody>
+                <h2>Projects Involved In</h2>
+                
+                @for(i<-projects) {
+                   <tr>
+                      <td>@i.getId</td>
+                      <td>@i.getName</td>
+    
+                    <td>
+                    <a type="button" value="View" class="btn btn-primary" href="@routes.HomeController.individualProject(i.getId)">View</a>
+                    </td>
+    
+                   </tr>
+            }
+            
+            </tbody>
+        </table>
+
+        @if((employee != null) && ((employee.isManager(emp.getDepartment())) || ("Administration".equals(employee.getDepartment().getName())))){
+<h2>Add Project</h2>
+@for(i<-allProjects){
+    <a type="button" value="AddProject" class="btn btn-primary" href="@routes.HomeController.addProject(emp.getId,i.getId)">@i.getName</a>
+}
+        }
+</div>
+
+<div class="col-sm-4 well">
+    @if(address != null){
+    <h2>Address: </h2>
+        <h2>@address.getNr @address.getStreet,</h2>
+        <h2>@address.getTown, @address.getCity</h2>
+        <h2>@address.getEircode</h2>
+    }else{
+        <h2>Please add an Address</h2>
+    }
+</div>
+</div>
+
+
+            }

@@ -59,11 +59,14 @@ public class Employee extends Model {
         }
     }
 
+    public static final List<Employee> findAll(){
+        return Employee.find.all();
+    }
+
     public Employee() {
 
     }
-
-    public Employee(String Id, String fname, String sname, String position, String email, Date dob, String password) {
+    public Employee(String Id, String fname, String sname, String position, String email, Date dob, String password, Address address, List<Project> project, Department department) {
         this.Id = Id;
         this.fname = fname;
         this.sname = sname;
@@ -71,6 +74,9 @@ public class Employee extends Model {
         this.email = email;
         this.dob = dob;
         this.password = password;
+        this.address = address;
+        this.project = project;
+        this.department = department;
     }
 
     public String getId() {
@@ -155,7 +161,19 @@ public class Employee extends Model {
     }
 
     public String getDobString(){
-        return String.format("%1$td %1$tB %1$tB %1$tY", dob);
+        return String.format("%1$td %1$tB %1$tY", dob);
+    }
+
+    public boolean isManager(Department d){
+        if(d == department && position.contains("Manager")){
+        return true;
+    }else{
+            return false;
+        }
+    }
+
+    public void addProject(Project p){
+        project.add(p);
     }
     
 }
