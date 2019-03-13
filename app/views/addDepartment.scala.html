@@ -1,0 +1,31 @@
+@(departmentForm: Form[models.Department],employee: models.employees.Employee)
+
+@import helper._
+
+@main("Add Department",employee){
+    <p class="lead">Add a new Department</p>
+
+    @* Display error message from flash, if it is set *@
+	@if(flash.containsKey("error")) {
+		<div class="alert alert-success">
+			@flash.get("error")
+		</div>
+	}
+
+    @form(action=routes.HomeController.addDepartmentSubmit(), 'class -> "form-horizontal", 'role -> "form") {
+        @* CSRF attack prevention *@
+        @* This token, sent by the controller, will be used to authenticate the form submission *@
+        @CSRF.formField
+        
+   
+            @inputText(departmentForm("id"), '_label -> "", 'hidden -> "hidden")
+            @inputText(departmentForm("name"), '_label -> "Department Name", 'class -> "form-control")
+            
+            <div class="actions">
+                <input type="submit" value="Add Department" class="btn btn-primary">
+                <a href="@routes.HomeController.addDepartment()">
+                    <button type="button" class="btn btn-warning">Cancel</button>
+                </a>
+            </div>
+    } @* end of form *@
+} @* end of main *@

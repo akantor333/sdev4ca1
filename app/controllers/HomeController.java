@@ -106,11 +106,11 @@ public class HomeController extends Controller {
 
      @Security.Authenticated(Secured.class)
      @Transactional
-     public Result addProject(String eid, Long pid){
+     public Result addProjectToEmployee(String eid, Long pid){
          Employee emp = Employee.getEmployeeById(eid);
          Project pro = Project.find.byId(pid);
 
-         emp.addProject(pro);
+         emp.addProjectToEmployee(pro);
          emp.update();
 
          return redirect(controllers.routes.HomeController.individualEmployee(eid)); 
@@ -159,6 +159,7 @@ public Result editAddress(String id,Long aid) {
 }
 
 @Security.Authenticated(Secured.class)
+@Transactional
 public Result updateAddressSubmit(String id) {
 
     Form<Address> newAddressForm = formFactory.form(Address.class).bindFromRequest();
@@ -170,12 +171,11 @@ public Result updateAddressSubmit(String id) {
     } else {
 
         Address  newAddress = newAddressForm.get();
+        emp.setAddress(newAddress);
+        newAddress.save();
+        emp.update();
 
-        if(Address.find.byId(newAddress.getId())==null){
-            newAddress.save();
-        }else{
-            newAddress.update();
-        }
+
               
     flash("success", "Address was Updated");
 
@@ -216,5 +216,60 @@ public Result deleteProject(Long id) {
     return redirect(controllers.routes.HomeController.projects());
 }
 
-
+@Security.Authenticated(Secured.class)
+@Transactional
+public Result addDepartment() {
+    Form<Department> departmentForm = formFactory.form(Department.class);
+    return ok(addDepartment.render(departmentForm,Employee.getEmployeeById(session().get("Id"))));
 }
+
+@Security.Authenticated(Secured.class)
+@Transactional
+public Result addProject() {
+    Form<Project> projectForm = formFactory.form(Project.class);
+    return ok(addProject.render(projectForm,Employee.getEmployeeById(session().get("Id"))));
+}
+
+@Security.Authenticated(Secured.class)
+public Result addProjectSubmit() {
+
+    Form<Project> newProjectForm = formFactory.form(Project.class).bindFromRequest();
+
+    if (newProjectForm.hasErrors()) {
+
+        return badRequest(addProject.render(newProjectForm,Employee.getEmployeeById(session().get("Id"))));
+    } else {
+
+        Project  newProject = newProjectForm.get();
+        newProject.save();
+
+              
+    flash("success", "Project was added");
+
+    return redirect(controllers.routes.HomeController.projects()); 
+    }
+}
+@Security.Authenticated(Secured.class)
+@Transactional
+@With(AuthAdmin.class)
+public Result addDepartmentSubmit() {
+
+    Form<Department> newDepartmentForm = formFactory.form(Department.class).bindFromRequest();
+
+    if (newDepartmentForm.hasErrors()) {
+
+        return badRequest(addDepartment.render(newDepartmentForm,Employee.getEmployeeById(session().get("Id"))));
+    }else {
+
+        Department  newDepartment = newDepartmentForm.get();
+        newDepartment.save();
+        }
+
+              
+        flash("success", "Department was added");
+
+    return redirect(controllers.routes.HomeController.departments()); 
+    }
+}
+
+

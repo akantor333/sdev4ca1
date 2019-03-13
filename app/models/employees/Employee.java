@@ -170,7 +170,7 @@ public class Employee extends Model {
         }
     }
 
-    public void addProject(Project p){
+    public void addProjectToEmployee(Project p){
         project.add(p);
     }
     

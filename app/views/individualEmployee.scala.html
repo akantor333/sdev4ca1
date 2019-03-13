@@ -60,7 +60,7 @@
         @if((employee != null) && ((employee.isManager(emp.getDepartment())) || ("Administration".equals(employee.getDepartment().getName())))){
 <h2>Add Project</h2>
 @for(i<-allProjects){
-    <a type="button" value="AddProject" class="btn btn-primary" href="@routes.HomeController.addProject(emp.getId,i.getId)">@i.getName</a>
+    <a type="button" value="AddProject" class="btn btn-primary" href="@routes.HomeController.addProjectToEmployee(emp.getId,i.getId)">@i.getName</a>
 }
         }
 </div>
