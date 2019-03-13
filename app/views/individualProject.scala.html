@@ -1,6 +1,8 @@
 @(project: models.Project, employees: List[models.employees.Employee], employee: models.employees.Employee)
 @main("Department",employee){
     <h1>Name: @project.getName</h1>
+    <h3>@project.getDescription</h3>
+
     <h2>Team</h2>
     <div class="col-sm-9">
             <table class="table table-bordered table-hover table-condensed">
@@ -35,4 +37,9 @@
             </tbody>
         </table>
     </div>
+
+    @if((employee != null) && ("Administration".equals(employee.getDepartment().getName()))){
+        <a type="button" value="Delete" onclick="return confirmDel();" class="btn btn-warning" href="@routes.HomeController.deleteProject(project.getId)">Delete</a>
+        }
+
 }

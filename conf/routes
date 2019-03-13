@@ -12,11 +12,14 @@ GET     /editEmployee/:id                     controllers.HomeController.editEmp
 GET     /individualDepartment/:id                   controllers.HomeController.individualDepartment(id: Long)
 GET     /individualEmployee/:id                     controllers.HomeController.individualEmployee(id: String)
 GET     /individualProject/:id                     controllers.HomeController.individualProject(id: Long)
-
+GET     /editAddress/:id/:aid                   controllers.HomeController.editAddress(id: String, aid: Long)
 GET     /registerEmployee               controllers.LoginController.registerEmployee
 POST    /registerEmployeeSubmit         controllers.LoginController.registerEmployeeSubmit()
 GET     /updateAddress/:id                  controllers.HomeController.updateAddress(id: String)
 POST    /updateAddressSubmit/:id               controllers.HomeController.updateAddressSubmit(id: String)
+GET     /deleteEmployee/:id             controllers.HomeController.deleteEmployee(id: String)
+GET     /deleteDepartment/:id             controllers.HomeController.deleteDepartment(id: Long)
+GET     /deleteProject/:id             controllers.HomeController.deleteProject(id: Long)
 
 GET     /login                      controllers.LoginController.login
 GET     /loginSubmit                controllers.LoginController.loginSubmit

@@ -110,7 +110,7 @@ public String saveFile(String id, FilePart<File> uploaded){
                 try {
                     BufferedImage img = ImageIO.read(newFile);
                     BufferedImage scaledImg = Scalr.resize(img, 90);
-                    if(ImageIO.write(scaledImg, extension , new File("public/images/employeeImages/", id + "thump.jpg"))){
+                    if(ImageIO.write(scaledImg, extension , new File("public/images/employeeImages/", id + "thumb.jpg"))){
                         return "image uploaded and thumbnail created.";
                     }else{
                         return "image uploaded but thumbnail creation failed."; 

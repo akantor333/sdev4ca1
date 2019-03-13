@@ -11,6 +11,7 @@ import models.employees.*;
 @Entity
 public class Address extends Model {
     @Id
+    @GeneratedValue
     private Long id;
 
     @Constraints.Required
@@ -28,21 +29,18 @@ public class Address extends Model {
     @Constraints.Required
     private String eircode;
 
-    @OneToOne
-    private Employee employee;
 
 
     public Address() {
     }
 
-    public Address(Long id, String nr, String street, String town, String city, String eircode, Employee employee) {
+    public Address(Long id, String nr, String street, String town, String city, String eircode) {
         this.id = id;
         this.nr = nr;
         this.street = street;
         this.town = town;
         this.city = city;
         this.eircode = eircode;
-        this.employee = employee;
     }
 
 
@@ -92,14 +90,6 @@ public class Address extends Model {
 
     public void setEircode(String eircode) {
         this.eircode = eircode;
-    }
-
-    public Employee getEmployee() {
-        return this.employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
     }
 
     public static Finder<Long,Address> find = new Finder<Long,Address>(Address.class);

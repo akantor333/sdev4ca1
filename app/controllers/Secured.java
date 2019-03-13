@@ -6,10 +6,12 @@ import play.mvc.Http.*;
 
 public class Secured extends Security.Authenticator {
 
-    public String getId(Context ctx) {
+    @Override
+    public String getUsername(Context ctx) {
         return ctx.session().get("Id");
     }
 
+    @Override
     public Result onUnauthorized(Context ctx) {
         return redirect(controllers.routes.LoginController.login());
     }

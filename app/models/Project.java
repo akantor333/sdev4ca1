@@ -16,6 +16,10 @@ public class Project extends Model {
     @Constraints.Required
     private String name;
 
+    @Column(columnDefinition = "TEXT")
+    @Constraints.Required
+    private String description;
+
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "project")
     private List<Employee> employee;
  
@@ -23,13 +27,20 @@ public class Project extends Model {
     public Project() {
     }
 
-    public Project(Long id, String name, List<Employee> employee) {
+    public Project(Long id, String name, String description, List<Employee> employee) {
         this.id = id;
         this.name = name;
+        this.description = description;
         this.employee = employee;
     }
 
+public String getDescription(){
+    return this.description;
+}
 
+public void setDescription(String d){
+    this.description = d;
+}
 
     public Long getId() {
         return this.id;

@@ -4,7 +4,7 @@
 <h1>Employee Information</h1>
 
 @if(env.resource("public/images/employeeImages/"+ emp.getId + "thumb.jpg").isDefined){
-    <td><img src"/assets/images/employeeImages/@emp.getId + "thumb.jpg")"/></td>
+    <td><img src="/assets/images/employeeImages/@(emp.getId + "thumb.jpg")"/></td>
 }else {
     <td><img src="/assets/images/employeeImages/noImage.jpg"/></td>
 }
@@ -12,9 +12,12 @@
 @if((employee != null) && ("Administration".equals(employee.getDepartment().getName()))){
     <a type="button" value="Edit Employee" class="btn btn-primary" href="@routes.HomeController.editEmployee(emp.getId)">Edit Employee Details</a>
 }
-
+@if(address != null){
 @if((employee != null) && (("Administration".equals(employee.getDepartment().getName())) || (employee.getId().equals(emp.getId())))){
-    <a type="button" value="Edit Employee" class="btn btn-primary" href="@routes.HomeController.updateAddress(emp.getId)">Add/Edit Address</a>
+    <a type="button" value="Edit Address" class="btn btn-primary" href="@routes.HomeController.editAddress(emp.getId,address.getId)">Edit Address</a>
+}
+}else{
+    <a type="button" value="Add Address" class="btn btn-primary" href="@routes.HomeController.updateAddress(emp.getId)">Add Address</a>
 }
 
 
@@ -73,6 +76,10 @@
     }
 </div>
 </div>
+
+@if((employee != null) && ("Administration".equals(employee.getDepartment().getName()))){
+    <a type="button" value="Delete" onclick="return confirmDel();" class="btn btn-warning" href="@routes.HomeController.deleteEmployee(emp.getId)">Delete</a>
+    }
 
 
             }

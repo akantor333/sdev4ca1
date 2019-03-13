@@ -9,9 +9,6 @@ import models.*;
 
 @Entity
 @Table (name = "employee")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "type")
-@DiscriminatorValue("e")
 
 public class Employee extends Model {
     @Id
@@ -36,7 +33,8 @@ public class Employee extends Model {
     @Constraints.Required
     private String password;
 
-    @OneToOne(mappedBy="employee", cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="AID")
     private Address address;
 
     @ManyToMany(cascade = CascadeType.ALL)
