@@ -76,6 +76,7 @@ public Result registerEmployeeSubmit() {
             newEmployee.save();
         }else{
             newEmployee.update();
+            
         }
 
         MultipartFormData<File> data = request().body().asMultipartFormData();

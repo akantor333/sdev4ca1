@@ -11,7 +11,7 @@ public class AuthAdmin extends Action.Simple {
 
     public CompletionStage<Result> call(Http.Context ctx) {
 
-        String id = ctx.session().get("Id");
+        String id = ctx.session().get("id");
         if (id != null) {
             Employee u = Employee.getEmployeeById(id);
             Department d = u.getDepartment();

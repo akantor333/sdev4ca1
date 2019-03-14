@@ -162,8 +162,8 @@ public class Employee extends Model {
         return String.format("%1$td %1$tB %1$tY", dob);
     }
 
-    public boolean isManager(Department d){
-        if(d == department && position.contains("Manager")){
+    public boolean isManager(Long id){
+        if(id == department.getId() && position.contains("Manager")){
         return true;
     }else{
             return false;
@@ -172,6 +172,10 @@ public class Employee extends Model {
 
     public void addProjectToEmployee(Project p){
         project.add(p);
+    }
+
+    public void removeProjectFromEmployee(Project p){
+        project.remove(p);
     }
     
 }

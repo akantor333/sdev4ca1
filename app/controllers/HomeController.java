@@ -115,6 +115,20 @@ public class HomeController extends Controller {
 
          return redirect(controllers.routes.HomeController.individualEmployee(eid)); 
      }
+
+     @Security.Authenticated(Secured.class)
+     @Transactional
+     public Result removeProjectFromEmployee(String eid, Long pid){
+        Employee emp = Employee.getEmployeeById(eid);
+        Project pro = Project.find.byId(pid);
+
+        emp.removeProjectFromEmployee(pro);
+        emp.update();
+
+        return redirect(controllers.routes.HomeController.individualEmployee(eid)); 
+     }
+
+
     @Security.Authenticated(Secured.class)
     @With(AuthAdmin.class)
     @Transactional

@@ -12,12 +12,12 @@
 @if((employee != null) && ("Administration".equals(employee.getDepartment().getName()))){
     <a type="button" value="Edit Employee" class="btn btn-primary" href="@routes.HomeController.editEmployee(emp.getId)">Edit Employee Details</a>
 }
-@if(address != null){
 @if((employee != null) && (("Administration".equals(employee.getDepartment().getName())) || (employee.getId().equals(emp.getId())))){
+@if(address != null){   
     <a type="button" value="Edit Address" class="btn btn-primary" href="@routes.HomeController.editAddress(emp.getId,address.getId)">Edit Address</a>
-}
 }else{
     <a type="button" value="Add Address" class="btn btn-primary" href="@routes.HomeController.updateAddress(emp.getId)">Add Address</a>
+}
 }
 
 
@@ -50,6 +50,11 @@
                     <td>
                     <a type="button" value="View" class="btn btn-primary" href="@routes.HomeController.individualProject(i.getId)">View</a>
                     </td>
+                    @if((employee != null) && ((employee.isManager(emp.getDepartment().getId())) || ("Administration".equals(employee.getDepartment().getName())))){
+                        <td>
+                            <a type="button" value="Remove" class="btn btn-danger" href="@routes.HomeController.removeProjectFromEmployee(emp.getId,i.getId)">Remove</a>
+                        </td>
+                    }
     
                    </tr>
             }
@@ -57,7 +62,7 @@
             </tbody>
         </table>
 
-        @if((employee != null) && ((employee.isManager(emp.getDepartment())) || ("Administration".equals(employee.getDepartment().getName())))){
+        @if((employee != null) && ((employee.isManager(emp.getDepartment().getId())) || ("Administration".equals(employee.getDepartment().getName())))){
 <h2>Add Project</h2>
 @for(i<-allProjects){
     <a type="button" value="AddProject" class="btn btn-primary" href="@routes.HomeController.addProjectToEmployee(emp.getId,i.getId)">@i.getName</a>
