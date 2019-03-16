@@ -17,6 +17,7 @@
         @* This token, sent by the controller, will be used to authenticate the form submission *@
         @CSRF.formField
 
+            @inputText(employeeForm("Id"), '_label -> "Employee Id", 'class -> "form-control")
             @inputText(employeeForm("fname"), '_label -> "First Name", 'class -> "form-control")
             @inputText(employeeForm("sname"), '_label -> "Surname", 'class -> "form-control")
             @inputText(employeeForm("position"), '_label -> "Position", 'class -> "form-control")
@@ -30,7 +31,6 @@
                 '_showConstraints -> false, 'class -> "form-control"
             )
             @inputText(employeeForm("aid"), '_label -> "", 'hidden -> "hidden")
-            @inputText(employeeForm("Id"), '_label -> "", 'hidden -> "hidden")
 
 
             <label>Image Upload</label>

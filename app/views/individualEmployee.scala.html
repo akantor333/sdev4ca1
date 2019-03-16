@@ -83,7 +83,7 @@
 </div>
 
 @if((employee != null) && ("Administration".equals(employee.getDepartment().getName()))){
-    <a type="button" value="Delete" onclick="return confirmDel();" class="btn btn-warning" href="@routes.HomeController.deleteEmployee(emp.getId)">Delete</a>
+    <a type="button" value="Delete" onclick="return confirmDel();" class="btn btn-warning" href="@routes.HomeController.deleteEmployee(emp.getId)">Delete Employee</a>
     }
 
 

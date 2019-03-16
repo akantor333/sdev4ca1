@@ -171,7 +171,8 @@ public class Employee extends Model {
     }
 
     public void addProjectToEmployee(Project p){
-        project.add(p);
+        if(!project.contains(p)){
+        project.add(p);}
     }
 
     public void removeProjectFromEmployee(Project p){
